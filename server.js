@@ -171,7 +171,7 @@ Reply ONLY with: {"score": number, "feedback": "one line"}`;
     }
 
     let score = Number(finalResult.score);
-    const maxMarks = Number(req.body.maxMarks);
+  
     score = Math.min(maxMarks, Math.max(0, score));
     score = Math.round(score * 2) / 2;
 
