@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CheckIt</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #F5F2EC;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 2rem 1rem 4rem;
+
+    }
+
+    .page {
+      width: 100%;
+      max-width: 680px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      padding-top: 1rem;
+    }
+
+    .logo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #1A1A1A;
+      color: #F5F2EC;
+      border-radius: 100px;
+      padding: 6px 16px 6px 8px;
+      margin-bottom: 1.5rem;
+    }
+
+    .logo-icon {
+      width: 28px;
+      height: 28px;
+      background: #D4472A;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      font-family: 'DM Serif Display', serif;
+      font-style: italic;
+    }
+
+    .logo-text {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .tagline {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.4rem;
+      color: #1A1A1A;
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+    }
+
+    .tagline em {
+      color: #D4472A;
+      font-style: italic;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      color: #6B6660;
+      font-weight: 300;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 1rem;
+      border: 1px solid #E8E3DC;
+      position: relative;
+    }
+
+    .card-number {
+      position: absolute;
+      top: -12px;
+      left: 24px;
+      background: #D4472A;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 100px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #1A1A1A;
+      margin-bottom: 10px;
+    }
+
+    textarea,
+    input[type="number"],
+    input[type="text"] {
+      width: 100%;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+      color: #1A1A1A;
+      background: #F9F7F4;
+      border: 1.5px solid #E8E3DC;
+      border-radius: 12px;
+      padding: 14px 16px;
+      outline: none;
+    }
+
+    textarea {
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    textarea:focus,
+    input[type="number"]:focus,
+    input[type="text"]:focus {
+      border-color: #D4472A;
+      background: #fff;
+    }
+
+    .step-hint {
+      font-size: 12px;
+      color: #9B958F;
+      margin-top: 8px;
+      font-weight: 300;
+    }
+
+    .upload-zone {
+      border: 2px dashed #D5CFC8;
+      border-radius: 14px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      background: #F9F7F4;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .upload-zone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .upload-icon {
+      width: 48px;
+      height: 48px;
+      background: #F0EBE5;
+      border-radius: 14px;
+      margin: 0 auto 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .upload-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: #1A1A1A;
+      margin-bottom: 5px;
+    }
+
+    .upload-sub {
+      font-size: 12px;
+      color: #9B958F;
+      font-weight: 300;
+    }
+
+    .eval-btn {
+      width: 100%;
+      padding: 18px;
+      background: #1A1A1A;
+      color: #F5F2EC;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .result-placeholder {
+      background: #fff;
+      border: 1.5px dashed #E8E3DC;
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      color: #B5AFA9;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .cropper-area {
+      display: none;
+      margin-top: 1rem;
+    }
+
+    .cropper-area.active {
+      display: block;
+    }
+
+    .aspect-group {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .asp-btn {
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1.5px solid #E8E3DC;
+      background: #fff;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      color: #6B6660;
+    }
+
+    .asp-btn.active {
+      border-color: #D4472A;
+      color: #D4472A;
+      background: #fdf6f4;
+    }
+
+
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .tb-btn {
+      padding: 8px 14px;
+      background: #F0EBE5;
+      border: none;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #1A1A1A;
+      cursor: pointer;
+    }
+
+    .tb-btn.accent {
+      background: #D4472A;
+      color: #fff;
+    }
+
+    .preview-box {
+      background: #F0EBE5;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2px solid #E8E3DC;
+    }
+
+
+
+
+
+
+
+    #ocrPreview {
+      width: 100%;
+      min-height: 180px;
+      background: #F9F7F4;
+      border: 1.5px solid #E8E3DC;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-top: 15px;
+      font-size: 15px;
+      line-height: 1.6;
+      color: #1A1A1A;
+      white-space: pre-wrap;
+    }
+
+
+    .cropper-container {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+
+    #preview {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .img-container {
+      width: 100%;
+      background: #1A1A1A;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+
+
+
+    .cropper-wrap-box,
+    .cropper-canvas,
+    .cropper-drag-box,
+    .cropper-crop-box {
+      border-radius: 12px;
+    }
+
+    .cropper-view-box {
+      outline: 2px solid #D4472A;
+      outline-color: rgba(212, 71, 42, 0.5);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <div class="page">
+
+    <div class="header">
+      <div class="logo-badge">
+        <div class="logo-icon">C</div>
+        <span class="logo-text">CheckIt</span>
+      </div>
+
+      <h1 class="tagline">
+        Grade smarter,<br>
+        not <em>harder.</em>
+      </h1>
+
+      <p class="subtitle">
+        AI-powered answer evaluation for teachers
+      </p>
+    </div>
+
+    <!-- IMPORTANT: DIV not FORM -->
+    <div id="evaluationForm">
+
+      <div class="card">
+        <div class="card-number">Step 1</div>
+
+        <label for="question">Exam Question</label>
+
+        <textarea id="question" rows="3" placeholder="e.g. Explain the process of photosynthesis in plants."></textarea>
+      </div>
+
+      <div class="card">
+        <div class="card-number">Step 2</div>
+
+        <label for="keypoints">Expected Key Points</label>
+
+        <textarea id="keypoints" rows="5"
+          placeholder="sunlight, chlorophyll, water, carbon dioxide, glucose, oxygen..."></textarea>
+
+        <p class="step-hint">
+          Separate key concepts with commas or new lines.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-number">Step 3</div>
+
+        <label for="maxMarks">Maximum Marks</label>
+
+        <input type="number" id="maxMarks" placeholder="e.g. 2, 3, 5" min="1" max="20" />
+
+        <p class="step-hint">
+          Enter total marks for this question.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-number">Student Info</div>
+
+        <label for="studentName">Student Name</label>
+        <input type="text" id="studentName" placeholder="Enter student name" />
+
+        <br><br>
+
+        <label for="studentClass">Class</label>
+        <input type="text" id="studentClass" placeholder="e.g. 10th Standard" />
+
+        <br><br>
+
+        <label for="studentDivision">Division / Section</label>
+        <input type="text" id="studentDivision" placeholder="e.g. A Section" />
+      </div>
+
+      <div class="card">
+        <div class="card-number">Step 4</div>
+
+        <label for="ans">Student's Answer Sheet</label>
+
+        <div class="upload-zone" id="uploadZone">
+          <input type="file" id="ans" accept="image/*" />
+          <div class="upload-icon" id="uploadIcon">📷</div>
+          <p class="upload-title" id="uploadTitle">Upload answer sheet</p>
+          <p class="upload-sub" id="uploadSub">Click to browse · PNG, JPG supported</p>
+        </div>
+        <div class="img-container">
+          <img id="preview" style="display:none; width:100%; border-radius:12px; margin-top:12px;" />
+        </div>
+        <!-- CROPPER CONTROLS -->
+        <div class="cropper-area" id="cropperArea">
+
+          <div style="margin-top:14px">
+            <div
+              style="font-size:12px;font-weight:600;color:#9B958F;margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em">
+              Aspect ratio</div>
+            <div class="aspect-group" id="aspectGroup">
+              <button class="asp-btn active" data-ratio="NaN">Free</button>
+              <button class="asp-btn" data-ratio="1">1:1</button>
+              <button class="asp-btn" data-ratio="1.3333">4:3</button>
+              <button class="asp-btn" data-ratio="0.7071">A4</button>
+            </div>
+          </div>
+
+
+
+          <div class="toolbar">
+            <button type="button" class="tb-btn" id="rotateLeft">↺ Rotate L</button>
+            <button type="button" class="tb-btn" id="rotateRight">↻ Rotate R</button>
+            <button type="button" class="tb-btn" id="flipH">⇄ Flip H</button>
+            <button type="button" class="tb-btn" id="flipV">⇅ Flip V</button>
+            <button type="button" class="tb-btn" id="resetBtn">↺ Reset</button>
+            <button type="button" class="tb-btn accent" id="cropBtn">✂ Crop & Use</button>
+          </div>
+
+          <div style="display:flex;gap:12px;margin-top:12px;align-items:flex-start;flex-wrap:wrap">
+            <div>
+              <div class="preview-box">
+                <div id="livePreview" style="width:120px;height:80px;overflow:hidden"></div>
+              </div>
+              <div style="font-size:11px;color:#9B958F;text-align:center;margin-top:4px">Live preview</div>
+            </div>
+            <div style="font-size:12px;color:#9B958F;display:flex;flex-direction:column;gap:4px;margin-top:8px">
+              <span>Size: <span id="cropW">—</span> × <span id="cropH">—</span> px</span>
+              <span>Zoom: <span id="zoomVal2">100</span>%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CROPPED RESULT -->
+        <div id="cropResultArea" style="display:none;margin-top:1rem">
+          <p style="font-size:12px;font-weight:600;color:#D4472A;margin-bottom:8px">✅ Cropped — ready to evaluate</p>
+          <img id="croppedPreviewImg" style="width:100%;border-radius:12px;border:2px solid #D4472A" />
+          <button type="button" class="tb-btn" id="recropBtn" style="margin-top:10px">Re-crop</button>
+        </div>
+
+        <!-- OCR OUTPUT (keep this exactly as before) -->
+        <div id="ocrPreview">
+          Detected text will appear here.
+        </div>
+
+
+      </div>
+
+      <!-- IMPORTANT: button type button -->
+      <button type="button" id="evaluateBtn" class="eval-btn">
+        Evaluate Answer
+      </button>
+
+    </div>
+
+    <div id="result" class="result-placeholder">
+      Your evaluation result will appear here after submission.
+    </div>
+
+    <div class="card">
+      <div class="card-number">Step 5</div>
+      <button type="button" id="downloadPdfBtn" class="eval-btn">
+        Download PDF Report
+      </button>
+
+      <label for="finalScore">Final Teacher Score</label>
+      <input type="number" id="finalScore" min="0" max="20" placeholder="Teacher can adjust marks" />
+
+      <p class="step-hint">
+        Modify AI score if needed.
+      </p>
+
+
+
+      <br><br>
+
+      <label for="teacherRemark">Teacher Final Remarks</label>
+      <textarea id="teacherRemark" rows="5" placeholder="Add final teacher comments here..."></textarea>
+
+      <br><br>
+
+      <button type="button" id="addToTotalBtn" class="eval-btn">
+        Add This Question To Total
+      </button>
+      <button type="button" id="nextStudentBtn" class="eval-btn">
+        Finish Student & Start Next
+      </button>
+
+    </div>
+
+    <div class="card">
+      <div class="card-number">Step 6</div>
+
+      <label>Total Marks Summary</label>
+
+      <div id="totalMarksBox">
+        Total Score: 0
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-number">Step 7</div>
+
+      <label for="mcqMarks">MCQ Marks</label>
+      <input type="number" id="mcqMarks" min="0" placeholder="Enter MCQ marks" />
+
+      <br><br>
+
+      <label for="mapMarks">Map Work Marks</label>
+      <input type="number" id="mapMarks" min="0" placeholder="Enter Map Work marks" />
+
+      <br><br>
+
+      <label for="otherMarks">Other Manual Marks</label>
+      <input type="number" id="otherMarks" min="0" placeholder="Enter other manual marks" />
+
+      <br><br>
+
+      <button type="button" id="updateManualMarksBtn" class="eval-btn">
+        Update Final Total
+      </button>
+    </div>
+
+
+
+  </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
+  <script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+      document.querySelectorAll('button').forEach(b => b.setAttribute('type', 'button'));
+      const btn = document.getElementById("evaluateBtn");
+      const result = document.getElementById("result");
+      const fileInput = document.getElementById("ans");
+      const downloadPdfBtn = document.getElementById("downloadPdfBtn");
+      const finalScore = document.getElementById("finalScore");
+      const teacherRemark = document.getElementById("teacherRemark");
+      const addToTotalBtn = document.getElementById("addToTotalBtn");
+      const totalMarksBox = document.getElementById("totalMarksBox");
+      const nextStudentBtn = document.getElementById("nextStudentBtn");
+      const mcqMarks = document.getElementById("mcqMarks");
+      const mapMarks = document.getElementById("mapMarks");
+      const otherMarks = document.getElementById("otherMarks");
+      const updateManualMarksBtn = document.getElementById("updateManualMarksBtn");
+      const preview = document.getElementById("preview");
+      const ocrPreview = document.getElementById("ocrPreview");
+
+      let cropper = null;
+      let flipX = 1, flipY = 1;
+      let croppedFile = null;
+      let manualTotal = 0;
+      let grandTotal = 0;
+      let maxTotal = 0;
+      let allQuestions = [];
+      let questionAlreadyAdded = false;
+
+      function updateCropInfo() {
+        if (!cropper) return;
+        const d = cropper.getData(true);
+        document.getElementById('cropW').textContent = Math.round(d.width);
+        document.getElementById('cropH').textContent = Math.round(d.height);
+        const img = cropper.getImageData();
+        document.getElementById('zoomVal2').textContent = Math.round(img.width / img.naturalWidth * 100);
+      }
+
+      // ── FILE UPLOAD ──
+      fileInput.addEventListener('change', function () {
+        const file = this.files[0];
+        if (!file) return;
+
+        if (!file.type.startsWith('image/')) {
+          alert('Please upload an image file only (JPG, PNG).');
+          this.value = '';
+          return;
+        }
+
+        document.getElementById('uploadIcon').style.display = 'none';
+        const shortName = file.name.length > 20 ? file.name.substring(0, 20) + '...' : file.name;
+        document.getElementById('uploadTitle').textContent = '✅ ' + shortName;
+        document.getElementById('uploadSub').textContent =
+          "Image selected successfully";
+
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = 'block';
+        document.getElementById('cropperArea').classList.add('active');
+        document.getElementById('cropResultArea').style.display = 'none';
+        flipX = 1; flipY = 1;
+
+        if (cropper) { cropper.destroy(); cropper = null; }
+
+        preview.onload = function () {
+          setTimeout(function () {
+            if (cropper) { cropper.destroy(); cropper = null; }
+            cropper = new Cropper(preview, {
+              aspectRatio: NaN,
+              viewMode: 3,
+              autoCropArea: 0.85,
+              responsive: true,
+              movable: true,
+              zoomable: true,
+              scalable: true,
+              rotatable: true,
+              dragMode: 'move',
+              preview: '#livePreview',
+              minCropBoxWidth: 50,
+              minCropBoxHeight: 50,
+              ready() { updateCropInfo(); },
+              crop() { updateCropInfo(); }
+            });
+          }, 100);
+        };
+      });
+
+      // ── ASPECT RATIO ──
+      document.getElementById('aspectGroup').addEventListener('click', function (e) {
+        const b = e.target.closest('.asp-btn');
+        if (!b || !cropper) return;
+        document.querySelectorAll('.asp-btn').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        const ratio = parseFloat(b.dataset.ratio);
+        cropper.setAspectRatio(isNaN(ratio) ? NaN : ratio);
+      });
+
+      // ── TOOLBAR ──
+      document.getElementById('rotateLeft').addEventListener('click', () => cropper?.rotate(-90));
+      document.getElementById('rotateRight').addEventListener('click', () => cropper?.rotate(90));
+      document.getElementById('flipH').addEventListener('click', () => { flipX *= -1; cropper?.scaleX(flipX); });
+      document.getElementById('flipV').addEventListener('click', () => { flipY *= -1; cropper?.scaleY(flipY); });
+      document.getElementById('resetBtn').addEventListener('click', () => {
+        flipX = 1; flipY = 1;
+        cropper?.reset();
+      });
+
+      // ── CROP ──
+      document.getElementById('cropBtn').addEventListener('click', function () {
+        if (!cropper) { alert('Upload an image first.'); return; }
+        const canvas = cropper.getCroppedCanvas({
+          maxWidth: 1200,
+          maxHeight: 1200,
+          imageSmoothingQuality: 'high'
+        });
+        canvas.toBlob(function (blob) {
+          croppedFile = new File([blob], 'cropped-answer.jpg', { type: 'image/jpeg' });
+          document.getElementById('croppedPreviewImg').src = canvas.toDataURL('image/jpeg', 0.92);
+          document.getElementById('cropResultArea').style.display = 'block';
+          document.getElementById('cropperArea').classList.remove('active');
+          preview.style.display = 'none';
+        }, 'image/jpeg', 0.92);
+      });
+
+      // ── RECROP ──
+      document.getElementById('recropBtn').addEventListener('click', function () {
+        document.getElementById('cropResultArea').style.display = 'none';
+        document.getElementById('cropperArea').classList.add('active');
+        preview.style.display = 'block';
+        croppedFile = null;
+      });
+
+      // ── ADD TO TOTAL ──
+      addToTotalBtn.addEventListener("click", function () {
+        if (questionAlreadyAdded) {
+          alert("This question is already added.");
+          return;
+        }
+
+        if (!finalScore.value || !document.getElementById("maxMarks").value) {
+          alert("Please evaluate the answer first.");
+          return;
+        }
+
+        const detectedAnswer =
+          ocrPreview.querySelector("p")?.innerText.trim() || "";
+
+        if (!detectedAnswer) {
+          alert("No student answer detected.");
+          return;
+        }
+
+        // PUSH FIRST — not later
+        allQuestions.push({
+          question: document.getElementById("question").value.trim(),
+          keypoints: document.getElementById("keypoints").value.trim(),
+          maxMarks: document.getElementById("maxMarks").value.trim(),
+          finalScore: finalScore.value.trim(),
+          teacherRemark: teacherRemark.value.trim(),
+          studentAnswer: detectedAnswer
+        });
+
+        // UPDATE TOTALS
+        grandTotal += Number(finalScore.value);
+        maxTotal += Number(document.getElementById("maxMarks").value);
+
+        totalMarksBox.innerHTML =
+          "<b>Total Score:</b> " + grandTotal + " / " + maxTotal;
+
+        // LOCK THIS QUESTION
+        questionAlreadyAdded = true;
+
+        alert("Question added successfully.");
+
+        addToTotalBtn.disabled = true;
+        addToTotalBtn.innerText = "Added Successfully";
+
+        // CLEAR ONLY QUESTION FIELDS
+        document.getElementById("question").value = "";
+        document.getElementById("keypoints").value = "";
+        document.getElementById("maxMarks").value = "";
+
+        fileInput.value = "";
+        preview.style.display = "none";
+        preview.src = "";
+        croppedFile = null;
+
+        // ✅ Reset upload zone UI
+        document.getElementById("uploadIcon").style.display = "flex";
+        document.getElementById("uploadTitle").textContent = "Upload answer sheet";
+        document.getElementById("uploadSub").textContent = "Click to browse · PNG, JPG supported";
+        document.getElementById("croppedPreviewImg").src = "";
+
+        if (cropper) {
+          cropper.destroy();
+          cropper = null;
+        }
+
+        document.getElementById("cropResultArea").style.display = "none";
+        document.getElementById("cropperArea").classList.remove("active");
+
+        ocrPreview.innerHTML = "Detected text will appear here.";
+        result.innerHTML = "Your evaluation result will appear here after submission.";
+
+        finalScore.value = "";
+        teacherRemark.value = "";
+      });
+
+      // ── NEXT STUDENT ──
+      nextStudentBtn.addEventListener("click", function () {
+        document.getElementById("studentName").value = "";
+        document.getElementById("studentClass").value = "";
+        document.getElementById("studentDivision").value = "";
+        document.getElementById("question").value = "";
+        document.getElementById("keypoints").value = "";
+        document.getElementById("maxMarks").value = "";
+        fileInput.value = "";
+        preview.style.display = "none";
+        preview.src = "";
+        croppedFile = null;
+        // FULL upload UI reset
+        document.getElementById("uploadIcon").style.display = "flex";
+        document.getElementById("uploadTitle").textContent = "Upload answer sheet";
+        document.getElementById("uploadSub").textContent = "Click to browse · PNG, JPG supported";
+        document.getElementById("croppedPreviewImg").src = "";
+
+        if (cropper) { cropper.destroy(); cropper = null; }
+
+        document.getElementById('cropResultArea').style.display = 'none';
+        document.getElementById('cropperArea').classList.remove('active');
+        ocrPreview.innerHTML = "Detected text will appear here.";
+        result.innerHTML = "Your evaluation result will appear here after submission.";
+        finalScore.value = "";
+        teacherRemark.value = "";
+        grandTotal = 0; maxTotal = 0;
+        allQuestions = [];
+        questionAlreadyAdded = false;
+        totalMarksBox.innerHTML = "<b>Total Score:</b> 0";
+        addToTotalBtn.disabled = false;
+        addToTotalBtn.innerText = "Add This Question To Total";
+        mcqMarks.value = ""; mapMarks.value = ""; otherMarks.value = "";
+        manualTotal = 0;
+        alert("Ready for next student.");
+      });
+
+      // ── MANUAL MARKS ──
+      updateManualMarksBtn.addEventListener("click", function () {
+        manualTotal = Number(mcqMarks.value || 0) + Number(mapMarks.value || 0) + Number(otherMarks.value || 0);
+        totalMarksBox.innerHTML =
+          "<b>AI Total:</b> " + grandTotal + " / " + maxTotal +
+          "<br><br><b>Manual Total:</b> " + manualTotal +
+          "<br><br><b>Grand Total:</b> " + (grandTotal + manualTotal);
+        alert("Final total updated successfully.");
+      });
+
+      // ── PDF ──
+      downloadPdfBtn.addEventListener("click", function () {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        const studentName = document.getElementById("studentName").value.trim();
+        const studentClass = document.getElementById("studentClass").value.trim();
+        const studentDivision = document.getElementById("studentDivision").value.trim();
+        if (allQuestions.length === 0) { alert("Please add at least one question first."); return; }
+        if (!studentName) { alert("Please enter student name first."); return; }
+
+        doc.setFontSize(22); doc.setFont("helvetica", "bold");
+        doc.text("CheckIt", 20, 20);
+        doc.setFontSize(14); doc.setFont("helvetica", "normal");
+        doc.text("AI-Powered Evaluation Report", 20, 30);
+        doc.setLineWidth(0.5); doc.line(20, 36, 190, 36);
+
+        let y = 45;
+        function checkPageSpace(s) { if (y + s > 260) { doc.addPage(); y = 20; } }
+
+        doc.setFontSize(13); doc.setFont("helvetica", "bold");
+        doc.text("Student Information", 20, y); y += 10;
+        doc.setFont("helvetica", "normal");
+        doc.text(`Name: ${studentName}`, 20, y); y += 8;
+        doc.text(`Class: ${studentClass}`, 20, y); y += 8;
+        doc.text(`Division: ${studentDivision}`, 20, y); y += 15;
+
+        doc.setFontSize(13); doc.setFont("helvetica", "bold");
+        doc.text("Question Details", 20, y); y += 10;
+        doc.setFont("helvetica", "normal"); doc.setFontSize(11);
+
+        allQuestions.forEach((item, index) => {
+          checkPageSpace(80);
+          doc.setFontSize(14); doc.text(`Question ${index + 1}`, 20, y); y += 10;
+          doc.setFontSize(11);
+          let t = doc.splitTextToSize(`Question: ${item.question}`, 170);
+          doc.text(t, 20, y); y += t.length * 7;
+          t = doc.splitTextToSize(`Key Points: ${item.keypoints}`, 170);
+          doc.text(t, 20, y); y += t.length * 7;
+          t = doc.splitTextToSize(`Student Answer: ${item.studentAnswer}`, 170);
+          doc.text(t, 20, y); y += t.length * 7;
+          doc.setFont("helvetica", "bold");
+          doc.text(`Score: ${item.finalScore} / ${item.maxMarks}`, 20, y); y += 8;
+          doc.setFont("helvetica", "normal");
+          t = doc.splitTextToSize(`Remarks: ${item.teacherRemark}`, 170);
+          doc.text(t, 20, y); y += t.length * 7 + 10;
+        });
+
+        checkPageSpace(70); y += 10;
+        doc.setFontSize(13); doc.setFont("helvetica", "bold");
+        doc.text("Manual Marks", 20, y); y += 10;
+        doc.setFont("helvetica", "normal"); doc.setFontSize(11);
+        doc.text(`MCQ: ${mcqMarks.value || 0}`, 20, y); y += 8;
+        doc.text(`Map Work: ${mapMarks.value || 0}`, 20, y); y += 8;
+        doc.text(`Other: ${otherMarks.value || 0}`, 20, y); y += 8;
+        doc.text(`Grand Total: ${grandTotal + manualTotal}`, 20, y); y += 20;
+        doc.setFontSize(10);
+        doc.text("Generated by CheckIt - AI Powered Answer Evaluation", 20, y);
+        doc.save(`${studentName}_evaluation_report.pdf`);
+        alert("PDF downloaded successfully.");
+      });
+
+      // ── EVALUATE ──
+      btn.addEventListener("click", async function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const question = document.getElementById("question").value.trim();
+        const keypoints = document.getElementById("keypoints").value.trim();
+        const maxMarks = document.getElementById("maxMarks").value.trim();
+        const file = croppedFile || fileInput.files[0];
+
+        if (!question) {
+          result.innerHTML = "Please enter exam question.";
+          return;
+        }
+
+        if (!keypoints) {
+          result.innerHTML = "Please enter expected key points.";
+          return;
+        }
+
+        if (!maxMarks) {
+          result.innerHTML = "Please enter maximum marks.";
+          return;
+        }
+
+        if (!file) {
+          result.innerHTML = "Please upload answer sheet.";
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append("question", question);
+        formData.append("keypoints", keypoints);
+        formData.append("maxMarks", maxMarks);
+        formData.append("answerImage", file);
+
+        result.innerHTML = "Reading handwriting and evaluating answer...";
+        btn.disabled = true;
+        btn.innerText = "Evaluating...";
+
+        downloadPdfBtn.disabled = true;
+        addToTotalBtn.disabled = true;
+
+        try {
+          const response = await fetch("/evaluate", {
+            method: "POST",
+            body: formData
+          });
+
+          if (!response.ok) {
+            throw new Error("Server failed");
+          }
+
+          const data = await response.json();
+
+          btn.disabled = false;
+          btn.innerText = "Evaluate Answer";
+
+          ocrPreview.innerHTML =
+            "<h3>Detected OCR Text</h3><p>" + data.ocrText + "</p>";
+
+          result.innerHTML =
+            "<h3>Evaluation Complete</h3>" +
+            "<p><b>AI Score:</b> " + data.score + " / " + maxMarks + "</p>" +
+            "<p><b>Feedback:</b><br>" + data.feedback + "</p>";
+
+          finalScore.value = data.score;
+          teacherRemark.value = data.feedback;
+
+          questionAlreadyAdded = false;
+          addToTotalBtn.disabled = false;
+          addToTotalBtn.innerText = "Add This Question To Total";
+
+        } catch (error) {
+          btn.disabled = false;
+          btn.innerText = "Evaluate Answer";
+
+          result.innerHTML =
+            "<h3>Evaluation Failed</h3><p>" + error.message + "</p>";
+        }
+
+        return false;
+      });
+
+    });
+  </script>
+
+</body>
+
+</html>
