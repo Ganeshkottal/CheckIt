@@ -3,6 +3,7 @@ console.log("ENV loaded");
 
 const express = require("express");
 const cors = require("cors");
+const rateLimit = require("express-rate-limit");
 const multer = require("multer");
 const axios = require("axios");
 const FormData = require("form-data");
@@ -16,6 +17,7 @@ const limiter = rateLimit({
   max: 50,
   message: "Too many requests. Try again later."
 });
+
 app.use(limiter);
 
 if (!fs.existsSync("uploads")) fs.mkdirSync("uploads");
